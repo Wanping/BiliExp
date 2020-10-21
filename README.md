@@ -1,27 +1,43 @@
+<div align="center"> 
+<h1 align="center">
 BiliExp
-====  
+</h1>
 
+
+![image](https://user-images.githubusercontent.com/67217225/96542531-d6bcdb80-12d4-11eb-81e1-49f3d3b85dfe.png)
+<br>
 [![](https://img.shields.io/badge/author-%E6%98%9F%E8%BE%B0-red "作者")](https://github.com/happy888888/ )
 ![](https://img.shields.io/badge/dynamic/json?label=GitHub%20Followers&query=%24.data.totalSubs&url=https%3A%2F%2Fapi.spencerwoo.com%2Fsubstats%2F%3Fsource%3Dgithub%26queryKey%3Dhappy888888&labelColor=282c34&color=181717&logo=github&longCache=true "关注数量")
+<br>
 ![](https://img.shields.io/github/stars/happy888888/BiliExp.svg?style=plastic&logo=appveyor "Star数量")
 ![](https://img.shields.io/github/forks/happy888888/BiliExp.svg?style=plastic&logo=stackshare "Fork数量")
 [![](https://img.shields.io/badge/LICENCE-SATA-BLUE.svg?style=plastic "协议")](https://github.com/zTrix/sata-license)
 ![](https://img.shields.io/badge/python->=3.6-GREEN.svg?style=social "python版本")
 ![](https://img.shields.io/github/contributors/happy888888/BiliExp "贡献者")
+![](https://img.shields.io/github/downloads/happy888888/BiliExp/total?style=flat-square "下载量")
+
+</div>
+
+# 项目说明
+
+本项目为bilibili(哔哩哔哩,以下简称B站)自动操作脚本，致力于简化大家对B站使用过程中的重复操作，并提供多样化的部署
+方式和运行环境，易于使用。本项目起源于我对Fiddler抓包工具的学习，由于大家不断支持和提建议才完成了这么多功能。请
+提出您宝贵的建议以帮助本项目更好的前进。
 
 ## 主要功能
-**一、B站自动操作脚本(云函数)**
+**一、B站自动操作脚本BiliExp.py**
 
 * [x] 自动获取经验(投币、点赞、分享视频) 
-* [x] 自动转发互动抽奖
-* [ ] ~~参与官方抽奖活动(activity)(因太鸡肋已删除)~~
-* [x] 直播辅助(直播签到，直播挂机，直播自动送出快过期礼物) 
+* [x] 自动转发互动抽奖并评论(自己关注的up主,目前没有自动关注功能,需要可以提issue)
+* [x] 参与官方转盘抽奖活动(activity，目前没有自动搜集活动的功能,需要在config/config.json里面手动指定)
+* [x] 直播辅助(直播签到，~~直播挂机~~，直播自动送出快过期礼物) 
 * [x] 自动兑换银瓜子为硬币 
 * [x] 自动领取大会员每月权益(B币劵，优惠券)(每月1号) 
 * [x] 自动将大会员B币劵给自己账户充电。(每月28号)
 * [x] 漫画辅助脚本(漫画APP签到，自动花费即将过期漫读劵，自动积分兑换漫画福利券，自动领取大会员每月福利劵，自动参加每月"站友日"活动) 
 * [x] 定时清理无效动态(转发的过期抽奖，失效动态) 
-* [ ] ~~直播开启宝箱领取银瓜子(本活动已结束，不知道B站以后会不会再启动)~~
+* [ ] ~~直播开启宝箱领取银瓜子(本活动已结束，不知道B站以后会不会再启动)~~ 
+* [x] 风纪委员投票(处于功能测试状态，目前每次执行只投一次票)
 </br>
 
 **二、脚本up主系列**
@@ -30,19 +46,44 @@ BiliExp
 (例子参考"机器人up主"文件夹)
 </br>
 
-**三、B站漫画下载**支持合并为单个pdf文件,允许使用账号cookie下载已解锁部分
+**三、B站漫画下载mangaDownloader.py**支持合并为单个pdf文件,允许使用账号cookie下载已解锁部分
 * [x] 使用账号cookie下载已解锁部分
 * [x] 合并为单个pdf文件
 </br>
 
-**四、B站视频下载(需要aria2)**
+**四、B站视频下载videoDownloader.py(需要提前安装aria2)**
 * [x] 使用账号cookie下载大会员视频
 * [x] 支持下载港澳台番剧(内置一个反向代理接口，接口源码见"player_proxy"文件夹，支持云函数部署此接口)
 </br>
 
+# 目录
+
+- [项目说明](#项目说明)
+  - [主要功能](#主要功能)
+- [目录](#目录)
+- [使用说明(仅自动操作脚本部分)](#使用方式仅自动操作脚本部分)
+  - [一、只使用Actions(推荐)](#方式一推荐只使用github-actions)
+  - [二、使用腾讯云函数(Actions部署)](#方式二使用腾讯云函数)
+  - [三、使用阿里云函数(Actions部署)(不推荐)](#方式三不推荐使用阿里云函数)
+  - [四、windows本地部署(依靠任务计划启动)](#方式四windows本地部署)
+  - [五、linux本地部署(依靠crontab启动,shell自动下载安装)](#方式五linux本地部署)
+- [使用说明(下载器部分)](#使用方式下载器部分)
+- [更新日志](#更新日志)
+- [获得B站账户cookies方法](#获得cookies方法)
+- [一些实用的B站PC浏览器辅助小脚本](/browser_assist#这里是一些用于b站的浏览器辅助脚本)
+  - [使用方式(仅适用pc浏览器)](/browser_assist#使用方式)
+  - [脚本](/browser_assist#脚本列表)
+    - [过期抽奖动态删除(目前已集成到自动操作脚本)](/browser_assist#所有过期抽奖动态删除)
+    - [破解专栏不可复制](/browser_assist#b站专栏不可复制破解)
+    - [删除关注up主](/browser_assist#删除关注的up主慎用)
+    - [删除互粉粉丝](/browser_assist#删除互粉的粉丝慎用)
+    - [关注话题页面up主(抽奖话题)](/browser_assist#关注话题页面up主主要是抽奖话题)
+    - [b站自动新人答题](/browser_assist#b站自动答题非原创未测试)
 </br>
 
 ## 使用方式(仅自动操作脚本部分)
+
+注意：方式一需要转到```BiliExp-Actions```分支,方式二和三一定要正确配置相应的secrets再执行Actions,方式五和方式六需要去release下载压缩包再部署。**请尽量按照使用步骤进行！！**
 
 ### 方式一(推荐)、只使用github Actions
 * 请转至本项目的"<a href="https://github.com/happy888888/BiliExp/tree/BiliExp-Actions" title="B站经验脚本纯Actions版">BiliExp-Actions</a>"分支，请区分此分支的Actions与本主分支的不同，不要使用本主分支的Actions。
@@ -51,49 +92,112 @@ BiliExp
 ![image](https://user-images.githubusercontent.com/67217225/94278277-34336600-ff7d-11ea-8cb5-d49e5e6884fc.png)
 
 
-### 方式二、使用阿里云函数
+### 方式二、使用腾讯云函数
+
+详细图文教程可以参考[博客文章](https://my-hexo-bucket-1251971143.cos-website.ap-guangzhou.myqcloud.com/2020/09/30/bilibili/) 。
+
+##### 1. 准备
+* 1.1开通云函数 SCF 的腾讯云账号，在[访问秘钥页面](https://console.cloud.tencent.com/cam/capi)获取账号的 TENCENT_SECRET_ID，TENCENT_SECRET_KEY
+> 注意！为了确保权限足够，获取这两个参数时不要使用子账户！此外，腾讯云账户需要[实名认证](https://console.cloud.tencent.com/developer/auth)。
+* 1.2依次登录 [SCF 云函数控制台](https://console.cloud.tencent.com/scf) 和 [SLS 控制台](https://console.cloud.tencent.com/sls) 开通相关服务，确保您已开通服务并创建相应[服务角色](https://console.cloud.tencent.com/cam/role) **SCF_QcsRole、SLS_QcsRole**
+* 1.3一个或多个B站账号，以及登录后获取的SESSDATA，bili_jct，DedeUserID ([获得B站账户cookies方法](#获得cookies方法)),可选：SCKEY，email用于微信或邮箱的消息推送
+* 1.4fork本项目
+##### 2. 部署
+*  2.1 在fork后的github仓库的 “Settings” --》“Secrets” 中添加"Secrets"，name和value分别为：
+    *  2.1.1 name为"TENCENT_SECRET_ID"           value为腾讯云用户SecretID(需要主账户，子账户可能没权限)
+    *  2.1.2 name为"TENCENT_SECRET_KEY"        value为腾讯云账户SecretKey
+    *  2.1.3 name为"biliconfig"           value为B站账号登录信息，格式如下
+		```
+        SESSDATA
+        bili_jct
+        uid
+        ```
+        例如下面这样
+        ```
+        e1272654%vfdawi241825%2C8dc06*a1
+        0a9081cc53856314783d195f5ddbadf3
+        203953353
+        ```
+		![image](https://user-images.githubusercontent.com/67217225/95849036-77654580-0d81-11eb-8125-9adcd23ec25a.png)
+		![image](https://user-images.githubusercontent.com/67217225/96539780-7aef5400-12ce-11eb-9af6-696286a44885.png)
+*  2.2 添加完上面 3 个"Secrets"后，进入"Actions"(上面那个不是Secrets下面那个) --》"deploy for tencentyun"，点击右边的"Run workflow"即可部署至腾讯云函数(如果出错请在红叉右边点击"deploy for tencentyun"查看部署任务的输出信息找出错误原因)
+    *  2.2.1 首次fork可能要去actions里面同意使用actions条款，如果"Actions"里面没有"deploy for tencentyun"，点一下右上角的"star"，"deploy for tencentyun"就会出现在"Actions"里面
+
+```
+    注: 默认并没有开启所有功能，部署到云函数后可以去/config/config.json文件进行更加详细的配置
+	1. 自定义功能开启与关闭
+	2. 投币功能自定义投币数量
+	3. 抽奖动态转发自定义评论内容，默认评论为(从未中奖，从未放弃[doge])
+	4. 漫画辅助功能的启用与详细配置，默认不启用此功能
+	5. 风纪委员投票功能的启用与详细配置，默认不启用此功能
+	6. 多账户的支持(支持50个以上的B站账号)，默认只能单账号
+```
+
+### 方式三(不推荐)、使用阿里云函数
+
+目前有发现在Actions内无法ping通阿里云函数的域名，部署可能出现超时现象
+
 * 1.准备
     *  1.1开通云函数计算的阿里云账号，以及账号的ACCOUNT_ID，ACCESS_KEY_ID，ACCESS_KEY_SECRET(**注意**！！获取后面两个参数时**不**要使用**子账户**！！会没有权限创建新的函数，请提前开启云函数服务)
-    *  1.2一个或多个B站账号，以及登录后获取的SESSDATA，bili_jct，DedeUserID (获取方式见最下方示意图)
-    *  1.3SCKEY (可选，用于账号失效时用微信提醒,不用请留空，详情见http://sc.ftqq.com/)
-    *  1.4fork本项目
+    *  1.2一个或多个B站账号，以及登录后获取的SESSDATA，bili_jct，DedeUserID ([获得B站账户cookies方法](#获得cookies方法)),可选：SCKEY，email用于微信或邮箱的消息推送
+    *  1.3fork本项目
+
 * 2.部署
     *  2.1在fork后的github仓库的 “Settings” --》“Secrets” 中添加"Secrets"，name和value分别为：
         *  2.1.1 name为"ACCOUNT_ID"           value为阿里云用户的账号ID
         *  2.1.2 name为"ACCESS_KEY_ID"        value为阿里云账户AccessKeyID(需要主账户，子账户可能没权限)
         *  2.1.3 name为"ACCESS_KEY_SECRET"    value为阿里云账户accessKeySecret
-        *  2.1.4 name为"biliconfig"           value为B站账号登录信息，格式参照config/config.json文件
+        *  2.1.4 name为"biliconfig"           value为B站账号登录信息，同上面腾讯云函数的部署步骤2.1.3
+
     *  2.2添加完上面4个"Secrets"后，进入"Actions" --》"deploy for aliyun"，点击右边的"Run workflow"即可部署至阿里云函数(如果出错请在红叉右边点击"deploy for aliyun"查看部署任务的输出信息找出错误原因)
         *  2.2.1 首次fork可能要去actions里面同意使用actions条款，如果"Actions"里面没有"deploy for aliyun"，点一下右上角的"star"，"deploy for aliyun"就会出现在"Actions"里面
 
-### 方式三、使用腾讯云函数
+### 方式四、windows本地部署
 
-详细图文教程可以参考[博客文章](https://my-hexo-bucket-1251971143.cos-website.ap-guangzhou.myqcloud.com/2020/09/30/bilibili/)。
+* 1.准备
+    *  1.1一个或多个B站账号，以及登录后获取的SESSDATA，bili_jct，DedeUserID (获取方式见最下方示意图),可选：SCKEY，email用于微信或邮箱的消息推送
+    *  1.2进入右边的release,下载BiliExp-win32_64开头的压缩包
 
-##### 1. 准备
-* 1.1 开通云函数 SCF 的腾讯云账号，在[访问秘钥页面](https://console.cloud.tencent.com/cam/capi)获取账号的 TENCENT_SECRET_ID，TENCENT_SECRET_KEY
+* 2.部署
+    *  2.1解压步骤1.2下载的压缩包，并放置到合适位置(比如E:\Program Files)
+    *  2.2进入解压后产生的config文件夹，配置config.json文件(包含功能的启用和账号cookie的配置)
+    *  2.3退出config文件夹返回上层，运行setup_for_windows.bat文件(需要管理员权限)，按照提示即可完成安装。脚本将会在每天12:00启动(依赖于计划任务)。
+	
+### 方式五、linux本地部署
 
-> 注意！为了确保权限足够，获取这两个参数时不要使用子账户！需要提前开启云函数服务。此外，腾讯云账户需要[实名认证](https://console.cloud.tencent.com/developer/auth)。
+* 1.准备
+    *  1.1一个或多个B站账号，以及登录后获取的SESSDATA，bili_jct，DedeUserID (获取方式见最下方示意图),可选：SCKEY，email用于微信或邮箱的消息推送
 
-* 1.2 一个或多个B站账号，以及登录后获取的SESSDATA，bili_jct，DedeUserID (获取方式见最下方示意图)
-*  1.3 SCKEY (可选，用于账号失效时用微信提醒,不用请留空，详情见http://sc.ftqq.com/)
-*  1.4 fork本项目
-##### 2. 部署
-*  2.1 在fork后的github仓库的 “Settings” --》“Secrets” 中添加"Secrets"，name和value分别为：
-    *  2.1.1 name为"TENCENT_SECRET_ID"           value为腾讯云用户SecretID(需要主账户，子账户可能没权限)
-    *  2.1.2 name为"TENCENT_SECRET_KEY"        value为腾讯云账户SecretKey
-    *  2.1.3 name为"biliconfig"           value为B站账号登录信息，格式参照config/config.json文件
-*  2.2 添加完上面 3 个"Secrets"后，进入"Actions" --》"deploy for tencentyun"，点击右边的"Run workflow"即可部署至腾讯云函数(如果出错请在红叉右边点击"deploy for tencentyun"查看部署任务的输出信息找出错误原因)
-    *  2.2.1 首次fork可能要去actions里面同意使用actions条款，如果"Actions"里面没有"deploy for tencentyun"，点一下右上角的"star"，"deploy for tencentyun"就会出现在"Actions"里面
-
-```
-    注:账号cookie检查每天0:10执行1次(填写SCKEY后账号登录状态失效会微信通知)；投币、点赞、分享视频，直播签到，送出直播即将过期礼物每天0:20执行1次；参与B站官方抽奖活动每天0:30执行1次；漫画app签到，花费即将过期漫读劵和积分兑换福利券功能每天12:00执行1次；将银瓜子兑换为硬币每天3:00执行1次；B站转发互动抽奖和发送直播在线心跳维持在线状态每隔10分钟运行1次；清理B站无效动态每周一执行1次。
-    自动花费即将过期漫读劵功能默认购买追漫列表里的漫画，mangaTask.py中手动指定购买列表，非即将过期的漫读劵不会使用。
-    自动兑换漫画积分为福利券功能默认关闭，mangaTask.py中手动指定兑换数量。
-    最后注意不要在github上直接在config/config.json中填写账号信息，而是在Secrets中填写，避免账号信息泄露。
-```
+* 2.部署
+    *  2.1执行如下命令，并按照提示安装
+	      ```
+		  wget https://glare.now.sh/happy888888/BiliExp/BiliExp-Linux-64 && mv BiliExp-Linux-64* BiliExp.tar && tar xvf BiliExp.tar && cd BiliExp && sudo chmod 755 setup_for_linux.sh && sudo ./setup_for_linux.sh
+		  ```
+    *  2.2安装成功后，可去/etc/BiliExp/config.json文件中进行详细配置，脚本将会在每天12:00启动(依赖于crontab)。
 
 </br></br></br>
+
+## 使用方式(下载器部分)
+
+* 1.转至[release](https://github.com/happy888888/BiliExp/releases) ，下载BiliDownloader，解压。
+* 2.从浏览器获取SESSDATA，bili_jct，DedeUserID这三个参数 ([获得B站账户cookies方法](#获得cookies方法))
+* 3.将上述获取的三个参数填入config文件夹中的config.json文件
+* 4.执行mangaDownloader.exe或videoDownloader.exe开始下载...
+
+</br></br></br>
+## 更新日志
+
+### 2020/10/20更新
+
+* 1.发布release版
+
+</br></br>
+
+### 2020/10/16更新
+
+* 1.将云函数部分与BiliExp-Actions分支合并，重构这部分所有代码，并调整文件结构
+
+</br></br>
 
 ### 2020/10/1更新
 
@@ -200,8 +304,8 @@ BiliExp
 * 4.利用B站专栏的图片上传接口可能能实现把B站当做免费图床？(大雾)？
 
 </br></br>
-    
 
+#### 获得cookies方法
 B站操作需要的cookie数据可以按照以下方式获取
 浏览器打开B站主页--》按F12打开开发者工具--》application--》cookies
 <div align="center"><img src="https://s1.ax1x.com/2020/09/23/wjM09e.png" width="800" height="450" title="获取cookies示例"></div>

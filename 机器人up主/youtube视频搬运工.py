@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from models.Video import VideoUploader
-import time, json
+from BiliClient import VideoUploader
+import time, json, re
 from pytube import YouTube
 
 with open('config/config.json','r',encoding='utf-8') as fp:
-        configData = json.load(fp)
+        configData = json.loads(re.sub(r'\/\*[\s\S]*?\/', '', fp.read()))
 
 url = input("请粘贴youtube视频完整链接后按回车：")
 title = input("请输入B站发布标题(直接回车默认为视频标题)：")
@@ -21,7 +21,7 @@ if itag:
 else:
     filename = video.streams.get_by_itag(22).download()
 
-bilivideo = VideoUploader(configData["cookieDatas"][0]) #创建B站视频发布任务
+bilivideo = VideoUploader(configData["users"][0]["cookieDatas"]) #创建B站视频发布任务
 print(f'开始将{filename}上传至B站，请耐心等待')
 vd = bilivideo.uploadFile(filename) #上传视频
 if vd["filename"] == "":
