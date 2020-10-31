@@ -6,7 +6,7 @@ class asyncBiliApi(object):
     def __init__(self):
 
         headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/63.0.3239.108","Referer": "https://www.bilibili.com/",'Connection': 'keep-alive'}
-        
+        self._islogin = False
         self._session = ClientSession(
                 headers = headers
                 )
@@ -21,6 +21,7 @@ class asyncBiliApi(object):
         if ret["code"] != 0:
             return False
 
+        self._islogin = True
         if 'bili_jct' in cookieData:
             self._bili_jct = cookieData["bili_jct"]
         else:
@@ -40,6 +41,11 @@ class asyncBiliApi(object):
             warnings.warn(f'{self._name}:账号异常，请检查bili_jct参数是否有效或本账号是否被封禁')
 
         return True
+
+    @property
+    def islogin(self):
+        '''是否登录'''
+        return self._islogin
 
     @property
     def myexp(self) -> int:
@@ -115,7 +121,7 @@ class asyncBiliApi(object):
         post_data = {
             "platformType": platformType
             }
-        async with self._session.post(url, data=post_data, verify_ssl=False) as r:
+        async with self._session.post(url, json=post_data, verify_ssl=False) as r:
             ret = await r.json()
         return ret
 
